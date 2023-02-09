@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
@@ -11,24 +11,40 @@ export class CompaniesService {
     private companyModel: Model<Company>,
   ) {}
 
-  create(createCompanyDto: CreateCompanyDto) {
+  create(createCompanyDto: CreateCompanyDto): Promise<Company> {
     const createdCompany = new this.companyModel(createCompanyDto);
     return createdCompany.save();
   }
 
-  findAll() {
+  findAll(): Promise<Company[]> {
     return this.companyModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  findOne(id: string): Promise<Company> {
+    return this.companyModel.findOne({ _id: id, is_active: true }).exec();
   }
 
-  update(id: number, updateCompanyDto: UpdateCompanyDto) {
-    return `This action updates a #${id} company`;
+  async update(
+    id: string,
+    updateCompanyDto: UpdateCompanyDto,
+  ): Promise<Company> {
+    const found = await this.findOne(id);
+    if (!found) {
+      throw new NotFoundException('Comapnhia não encontrada');
+    }
+    await this.companyModel.updateOne({ _id: id }, updateCompanyDto);
+    return { ...found, ...updateCompanyDto };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+  async remove(id: string): Promise<void> {
+    const found = await this.findOne(id);
+    if (!found) {
+      throw new NotFoundException('Comapnhia não encontrada');
+    }
+    const deletedObj = {
+      is_active: false,
+      deletedAt: new Date(),
+    };
+    await this.companyModel.updateOne({ _id: id }, deletedObj);
   }
 }
