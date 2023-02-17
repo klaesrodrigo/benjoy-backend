@@ -6,11 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  Res,
   HttpStatus,
   HttpCode,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
