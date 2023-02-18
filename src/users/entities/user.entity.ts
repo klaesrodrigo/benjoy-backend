@@ -4,6 +4,7 @@ export class User {
   name: string;
   address: UsersAddress;
   email: string;
+  phone: string;
   password: string;
   company_id: string;
   is_active?: boolean;

@@ -6,6 +6,7 @@ export const CompaniesSchema = new mongoose.Schema(
     name: String,
     address: UserAddressesSchema,
     email: String,
+    phone: String,
     password: String,
     company_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
     is_active: Boolean,
