@@ -10,8 +10,8 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
-import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
+import { CreateCompanyDto } from './dto/createCompany.dto';
+import { UpdateCompanyDto } from './dto/updateCompany.dto';
 import { Company } from './entities/company.entity';
 
 @Controller('companies')

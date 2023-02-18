@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { UsersAddress } from './userAddress.entity';
 
 export class User {
