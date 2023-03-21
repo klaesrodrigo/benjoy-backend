@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import { UserAddressesSchema } from './userAddresses.schema';
 
-export const CompaniesSchema = new mongoose.Schema(
+export const UsersSchema = new mongoose.Schema(
   {
     name: String,
     address: UserAddressesSchema,
