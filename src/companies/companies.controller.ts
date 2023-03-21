@@ -8,11 +8,13 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/createCompany.dto';
 import { UpdateCompanyDto } from './dto/updateCompany.dto';
 import { Company } from './entities/company.entity';
+import { GetCompaniesFilterDto } from './dto/getCompaniesFilters.dto';
 
 @Controller('companies')
 export class CompaniesController {
@@ -24,8 +26,8 @@ export class CompaniesController {
   }
 
   @Get()
-  findAll(): Promise<Company[]> {
-    return this.companiesService.findAll();
+  findAll(@Query() filters: GetCompaniesFilterDto): Promise<Company[]> {
+    return this.companiesService.findAll(filters);
   }
 
   @Get(':id')

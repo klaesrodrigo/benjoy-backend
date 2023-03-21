@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { CreateCompanyDto } from './dto/createCompany.dto';
 import { UpdateCompanyDto } from './dto/updateCompany.dto';
 import { Company } from './entities/company.entity';
+import { GetCompaniesFilterDto } from './dto/getCompaniesFilters.dto';
 
 @Injectable()
 export class CompaniesService {
@@ -12,12 +13,27 @@ export class CompaniesService {
   ) {}
 
   create(createCompanyDto: CreateCompanyDto): Promise<Company> {
-    const createdCompany = new this.companyModel(createCompanyDto);
+    const createdCompany = new this.companyModel({
+      ...createCompanyDto,
+      is_active: true,
+    });
     return createdCompany.save();
   }
 
-  findAll(): Promise<Company[]> {
-    return this.companyModel.find().exec();
+  findAll(filters: GetCompaniesFilterDto): Promise<Company[]> {
+    const filtersFormatted = {};
+    const addressKeys = ['state', 'city'];
+    Object.keys(filters).forEach((element) => {
+      if (addressKeys.includes(element)) {
+        return (filtersFormatted[`address.${element}`] = {
+          $regex: filters[element],
+          $options: 'i',
+        });
+      }
+      filtersFormatted[element] = { $regex: filters[element], $options: 'i' };
+    });
+    console.log(filtersFormatted);
+    return this.companyModel.find(filtersFormatted).exec();
   }
 
   findOne(id: string): Promise<Company> {
