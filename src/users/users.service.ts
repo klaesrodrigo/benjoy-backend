@@ -16,16 +16,23 @@ export class UsersService {
     const createdUser = new this.userModel({
       ...createUserDto,
       password: hashedPassword,
+      is_active: true,
     });
-    return createdUser.save();
+    createdUser.save();
+    delete createdUser.password;
+    return createdUser;
   }
 
-  findAll() {
+  async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
 
-  findOne(id: number) {
+  async findOne(id: number): Promise<User> {
     return this.userModel.findOne({ _id: id, is_active: true }).exec();
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return this.userModel.findOne({ email, is_active: true }).exec();
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
