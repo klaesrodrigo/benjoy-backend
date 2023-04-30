@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { UserDocument } from './schemas/users.schema';
 
 @Injectable()
 export class UsersService {
@@ -23,15 +24,15 @@ export class UsersService {
     return createdUser;
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserDocument[]> {
     return this.userModel.find().exec();
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: number): Promise<UserDocument> {
     return this.userModel.findOne({ _id: id, is_active: true }).exec();
   }
 
-  async findByEmail(email: string): Promise<User> {
+  async findByEmail(email: string): Promise<UserDocument> {
     return this.userModel.findOne({ email, is_active: true }).exec();
   }
 

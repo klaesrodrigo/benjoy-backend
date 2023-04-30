@@ -32,7 +32,6 @@ export class CompaniesService {
       }
       filtersFormatted[element] = { $regex: filters[element], $options: 'i' };
     });
-    console.log(filtersFormatted);
     return this.companyModel.find(filtersFormatted).exec();
   }
 

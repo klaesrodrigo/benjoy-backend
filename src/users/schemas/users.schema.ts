@@ -1,5 +1,8 @@
 import * as mongoose from 'mongoose';
 import { UserAddressesSchema } from './userAddresses.schema';
+import { User } from '../entities/user.entity';
+
+export type UserDocument = mongoose.HydratedDocument<User>;
 
 export const UsersSchema = new mongoose.Schema(
   {
