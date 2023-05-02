@@ -19,7 +19,7 @@ export class UsersService {
       password: hashedPassword,
       is_active: true,
     });
-    createdUser.save();
+    await createdUser.save();
     delete createdUser.password;
     return createdUser;
   }
